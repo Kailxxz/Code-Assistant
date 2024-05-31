@@ -56,4 +56,3 @@ url_parser==3.0.3
 torch==2.3.0
 torch_xla==2.3.0
 requests_kerberos==0.14.0
-Res==0.1.7
