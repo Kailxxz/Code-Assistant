@@ -20,7 +20,6 @@ Carbon==1.1.10
 checks==0.2
 ConfigParser==7.0.0
 contextlib2==21.6.0
-ctypes_snappy==1.03
 curio==1.6
 Cython==3.0.10
 cytoolz==0.12.3
