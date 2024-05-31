@@ -1,43 +1,32 @@
+import streamlit as st
 import requests
 import json
-import streamlit as st
-
-url = "http://localhost:11434/api/generate"
-headers = {
-    'Content-Type': 'application/json'
-}
-history = []
 
 def generate_response(prompt):
-    history.append(prompt)
-    final_prompt = "\n".join(history)
+    url = "http://localhost:11434/api/generate"
+    headers = {
+        "Content-Type": "application/json"
+    }
     data = {
-        "model": "codingsensei",
-        "prompt": final_prompt,
+        "prompt": prompt,
         "stream": False
     }
+    st.write(f"Sending request to: {url}")  # Debug statement
     response = requests.post(url, headers=headers, data=json.dumps(data))
-
     if response.status_code == 200:
-        response = response.json()
-        actual_response = response['response']
-        return actual_response
+        return response.json()
     else:
-        st.error(f"Error: {response.text}")
+        st.error(f"Error: {response.status_code}")
+        st.error(response.text)
+        return None
 
 def main():
-    st.title("Code assistant")
+    st.title("Code Assistant")
     prompt = st.text_area("Enter your prompt", height=100)
     if st.button("Submit"):
         response = generate_response(prompt)
-        
-        # Calculate the height based on the length of the response
         if response:
-            response_height = max(100, len(response) // 2)  # Adjust the divisor to control the height increment
-        else:
-            response_height = 100
-            
-        st.text_area("Response", value=response, height=response_height)
+            st.text_area("Response", value=response, height=200)
 
 if __name__ == "__main__":
     main()
